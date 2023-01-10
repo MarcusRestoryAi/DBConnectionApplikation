@@ -37,6 +37,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.lblSelectOutput = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.gridOutput = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOutput)).BeginInit();
             this.SuspendLayout();
             // 
             // txtName
@@ -124,11 +126,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // gridOutput
+            // 
+            this.gridOutput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridOutput.Location = new System.Drawing.Point(37, 258);
+            this.gridOutput.Name = "gridOutput";
+            this.gridOutput.RowHeadersWidth = 51;
+            this.gridOutput.RowTemplate.Height = 24;
+            this.gridOutput.Size = new System.Drawing.Size(681, 272);
+            this.gridOutput.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1309, 627);
+            this.Controls.Add(this.gridOutput);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.lblSelectOutput);
             this.Controls.Add(this.button1);
@@ -140,6 +153,7 @@
             this.Controls.Add(this.txtName);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.gridOutput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,6 +170,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label lblSelectOutput;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView gridOutput;
     }
 }
 

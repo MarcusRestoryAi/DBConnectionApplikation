@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace DBConnectionApplikation
 {
@@ -17,6 +18,8 @@ namespace DBConnectionApplikation
     {
         //Skapa ett MySQLCOnnector object
         MySqlConnection conn;
+
+        TextBox[] txtBoxes;
 
         public Form1()
         {
@@ -31,6 +34,9 @@ namespace DBConnectionApplikation
             //Establera kopplika till Database
             string connString = $"SERVER={server};DATABASE={database};UID={user};PASSWORD={pass};";
             conn = new MySqlConnection(connString);
+
+            //Skapa en array av textbox, för validering
+            txtBoxes = new TextBox[] { txtName, txtAge, txtPet };
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,6 +51,34 @@ namespace DBConnectionApplikation
 
         private void insertToDB()
         {
+            //ValideringsCheck
+            bool valid = true;
+
+            //Validering; kontrollera att varje textbox har ett värde
+            foreach (TextBox textbox in txtBoxes)
+            {
+                //Cleanup
+                textbox.Text = textbox.Text.Trim();
+
+                //validering
+                if (textbox.Text == "")
+                {
+                    //Validering has failed
+                    textbox.BackColor = Color.Red;
+
+                    valid = false;
+                } else
+                {
+                    textbox.BackColor = TextBox.DefaultBackColor;
+                }
+            }
+
+            //Kontrollerar validerings resultat
+            if (!valid) {
+                MessageBox.Show("Felaktig inmatning. Kontrollera röda fält.");
+                return;
+            }
+
             //Hämta data från textfält
             string name = txtName.Text;
             int age = Convert.ToInt32(txtAge.Text);
@@ -94,6 +128,11 @@ namespace DBConnectionApplikation
 
                 //Exekvera SQL querry
                 MySqlDataReader reader = cmd.ExecuteReader();
+
+                //Skriva till Grid
+                DataTable dataTable = new DataTable();
+                dataTable.Load(reader);
+                gridOutput.DataSource = dataTable;
 
                 //Tömma output label
                 lblSelectOutput.Text = "";
