@@ -51,7 +51,8 @@ namespace DBConnectionApplikation
             string petName = txtPet.Text;
 
             //Bygg upp SQL querry
-            string SQLquerry = $"INSERT INTO people(people_name, people_age,people_pet) VALUES ('{name}', {age}, '{petName}');";
+            //string SQLquerry = $"INSERT INTO people(people_name, people_age,people_pet) VALUES ('{name}', {age}, '{petName}');";
+            string SQLquerry = $"CALL insertPeople('{name}', {age}, '{petName}');";
 
             //Skapar ett MySQLCommand objekt
             MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
@@ -79,7 +80,8 @@ namespace DBConnectionApplikation
         private void selectFromDB()
         {
             //Bygg upp SQL querry
-            string SQLquerry = "SELECT * FROM people";
+            //string SQLquerry = "SELECT * FROM people";
+            string SQLquerry = "CALL selectPeople();";
 
             //Skapar ett MySQLCommand objekt
             MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
