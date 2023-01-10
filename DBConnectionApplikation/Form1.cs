@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Xml.Linq;
 
 namespace DBConnectionApplikation
 {
@@ -34,6 +36,11 @@ namespace DBConnectionApplikation
         private void button1_Click(object sender, EventArgs e)
         {
             insertToDB();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            selectFromDB();
         }
 
         private void insertToDB()
@@ -67,6 +74,47 @@ namespace DBConnectionApplikation
 
             // Bekräftelse till användaren
             MessageBox.Show("Insert finished successfully!");
+        }
+
+        private void selectFromDB()
+        {
+            //Bygg upp SQL querry
+            string SQLquerry = "SELECT * FROM people";
+
+            //Skapar ett MySQLCommand objekt
+            MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
+
+            //Try/Catch block
+            try
+            {
+                //Öppna koppling till DB
+                conn.Open();
+
+                //Exekvera SQL querry
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                //Tömma output label
+                lblSelectOutput.Text = "";
+
+                //While Loop för att skriva ut hämtad data
+                while (reader.Read())
+                {
+                    //Hämta specifik data från Reader objekt
+                    string name = reader["people_name"].ToString();
+                    int age = Convert.ToInt32(reader["people_age"]);
+                    string petName = reader["people_pet"].ToString();
+
+                    //Skriva ut värden till label
+                    lblSelectOutput.Text += $"{name} är {age} år gammal. Husdjuret heter {petName}{Environment.NewLine}";
+                }
+
+                //stänger kopplingen till DB
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }
