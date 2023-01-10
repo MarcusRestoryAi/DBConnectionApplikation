@@ -45,6 +45,28 @@ namespace DBConnectionApplikation
 
             //Bygg upp SQL querry
             string SQLquerry = $"INSERT INTO people(people_name, people_age,people_pet) VALUES ('{name}', {age}, '{petName}');";
+
+            //Skapar ett MySQLCommand objekt
+            MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
+
+            //Try/Catch block
+            try
+            {
+                //Öppna koppling till DB
+                conn.Open();
+
+                //Exekvera SQL querry
+                cmd.ExecuteReader();
+
+                //stänger kopplingen till DB
+                conn.Close();
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            // Bekräftelse till användaren
+            MessageBox.Show("Insert finished successfully!");
         }
     }
 }
