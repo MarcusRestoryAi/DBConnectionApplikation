@@ -25,6 +25,26 @@ namespace DBConnectionApplikation
             string database = "oop22gbapplication";
             string user = "root";
             string pass = "SokrateS13";
+
+            //Establera kopplika till Database
+            string connString = $"SERVER={server};DATABASE={database};UID={user};PASSWORD={pass};";
+            conn = new MySqlConnection(connString);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            insertToDB();
+        }
+
+        private void insertToDB()
+        {
+            //Hämta data från textfält
+            string name = txtName.Text;
+            int age = Convert.ToInt32(txtAge.Text);
+            string petName = txtPet.Text;
+
+            //Bygg upp SQL querry
+            string SQLquerry = $"INSERT INTO people(people_name, people_age,people_pet) VALUES ('{name}', {age}, '{petName}');";
         }
     }
 }
