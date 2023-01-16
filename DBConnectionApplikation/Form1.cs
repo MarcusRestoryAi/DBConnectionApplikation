@@ -137,6 +137,9 @@ namespace DBConnectionApplikation
                 //Tömma output label
                 lblSelectOutput.Text = "";
 
+                //Exekvera SQL querry
+                reader = cmd.ExecuteReader();
+
                 //While Loop för att skriva ut hämtad data
                 while (reader.Read())
                 {
