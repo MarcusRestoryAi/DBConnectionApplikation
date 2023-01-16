@@ -137,6 +137,9 @@ namespace DBConnectionApplikation
                 //Tömma output label
                 lblSelectOutput.Text = "";
 
+                //Tömma Persons listan
+                People.persons.Clear();
+
                 //Exekvera SQL querry
                 reader = cmd.ExecuteReader();
 
@@ -144,12 +147,16 @@ namespace DBConnectionApplikation
                 while (reader.Read())
                 {
                     //Hämta specifik data från Reader objekt
+                    int id = Convert.ToInt32(reader["people_id"]);
                     string name = reader["people_name"].ToString();
                     int age = Convert.ToInt32(reader["people_age"]);
                     string petName = reader["people_pet"].ToString();
 
                     //Skriva ut värden till label
                     lblSelectOutput.Text += $"{name} är {age} år gammal. Husdjuret heter {petName}{Environment.NewLine}";
+
+                    //Skapa ett nytt objekt av People och sparar det i statisk lista
+                    People.persons.Add(new People(id, name, age, petName));
                 }
 
                 //stänger kopplingen till DB
