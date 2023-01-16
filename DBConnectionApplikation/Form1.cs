@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 using TextBox = System.Windows.Forms.TextBox;
+using MySqlX.XDevAPI.Relational;
 
 namespace DBConnectionApplikation
 {
@@ -166,6 +167,46 @@ namespace DBConnectionApplikation
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        private void gridOutput_Click(object sender, EventArgs e)
+        {
+            // Validering för att kontrollera att en rad har blivit hämtad
+            if (gridOutput.SelectedRows.Count != 1) return;
+
+            //Validering för att kontolerea att vi har lokal data från DB
+            if (People.persons.Count == 0) return;
+
+            //Int vairabel för markerat id
+            int id = 0;
+
+            //Hämtar ID från den markerade raden
+            DataGridViewSelectedRowCollection rows = gridOutput.SelectedRows;
+            id = Convert.ToInt32(rows[0].Cells[0].Value);
+
+            /*foreach (DataGridViewRow row in rows)
+            {
+                id = Convert.ToInt32(row.Cells[0].Value);
+            }*/
+
+            foreach (People person in People.persons)
+            {
+                //Söker efter rätt post i listan
+                if (person.Id == id)
+                {
+                    //Hittat rätt person
+
+                    //Hämta properties från person och skriv in dem i textfält
+
+                    txtBoxes[0].Text = person.Name;
+                    txtBoxes[1].Text = person.Age.ToString();
+                    txtBoxes[2].Text = person.Pet;
+
+                    //Avsluta med break
+                    break;
+                }
+            }
+
         }
     }
 }

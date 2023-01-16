@@ -135,6 +135,7 @@
             this.gridOutput.RowTemplate.Height = 24;
             this.gridOutput.Size = new System.Drawing.Size(681, 272);
             this.gridOutput.TabIndex = 5;
+            this.gridOutput.Click += new System.EventHandler(this.gridOutput_Click);
             // 
             // Form1
             // 
