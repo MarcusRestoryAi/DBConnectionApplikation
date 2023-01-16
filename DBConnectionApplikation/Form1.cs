@@ -112,11 +112,21 @@ namespace DBConnectionApplikation
             MessageBox.Show("Insert finished successfully!");
         }
 
-        private void selectFromDB()
+        private void selectFromDB(string keyword = "")
         {
-            //Bygg upp SQL querry
-            //string SQLquerry = "SELECT * FROM people";
-            string SQLquerry = "CALL selectPeople();";
+            string SQLquerry;
+
+            // Kontrollera om keyword har ett inkommade värde
+            if (keyword == "")
+            {
+                //Skriv querry för att hämta alla persons
+                SQLquerry = "CALL selectPeople();";
+            }
+            else
+            {
+                //Querry för att söka på spcifikt namn
+                SQLquerry = $"CALL searchName('{keyword}');";
+            }
 
             //Skapar ett MySQLCommand objekt
             MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
@@ -171,11 +181,18 @@ namespace DBConnectionApplikation
 
         private void gridOutput_Click(object sender, EventArgs e)
         {
+            getSelectedRow();
+        }
+
+        private void getSelectedRow()
+        {
             // Validering för att kontrollera att en rad har blivit hämtad
             if (gridOutput.SelectedRows.Count != 1) return;
 
             //Validering för att kontolerea att vi har lokal data från DB
             if (People.persons.Count == 0) return;
+
+            //TODO: COmbine IF statements and add btnUpdate.enabled = false
 
             //Int vairabel för markerat id
             int id = 0;
@@ -207,6 +224,116 @@ namespace DBConnectionApplikation
                 }
             }
 
+            //Enable btnUpdate
+            btnUpdate.Enabled = true;
+            btnDelete.Enabled = true;
+        }
+
+        private void gridOutput_SelectionChanged(object sender, EventArgs e)
+        {
+            getSelectedRow();
+        }
+
+        private void gridOutput_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            getSelectedRow();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Validering för att kontrollera att en rad är markerad
+            if (gridOutput.SelectedRows.Count != 1) return;
+
+            //TODO: Check text has changed
+            //TODO: Check that textfields aren't empty
+
+            //Int vairabel för markerat id
+            int id = 0;
+
+            //Hämtar ID från den markerade raden
+            DataGridViewSelectedRowCollection rows = gridOutput.SelectedRows;
+            id = Convert.ToInt32(rows[0].Cells[0].Value);
+
+            //Hämta data från textfält
+            string name = txtName.Text;
+            int age = Convert.ToInt32(txtAge.Text);
+            string petName = txtPet.Text;
+
+            //Bygg upp SQL querry
+            string SQLquerry = $"CALL updatePeople({id}, '{name}', {age}, '{petName}');";
+
+            //Skapar ett MySQLCommand objekt
+            MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
+
+            //Try/Catch block
+            try
+            {
+                //Öppna koppling till DB
+                conn.Open();
+
+                //Exekvera SQL querry
+                cmd.ExecuteReader();
+
+                //stänger kopplingen till DB
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //Uppdatera grid
+            selectFromDB();
+
+            // Bekräftelse till användaren
+            MessageBox.Show("Update finished successfully!");
+
+            
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            //Anropa SELECTfromDB, med namne-text som parameter
+            selectFromDB( txtName.Text );
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // Validering för att kontrollera att en rad är markerad
+            if (gridOutput.SelectedRows.Count != 1) return;
+
+            //Int vairabel för markerat id
+            int id = 0;
+
+            //Hämtar ID från den markerade raden
+            DataGridViewSelectedRowCollection rows = gridOutput.SelectedRows;
+            id = Convert.ToInt32(rows[0].Cells[0].Value);
+
+            //SKapa en SQL querry
+            string SQLQuerry = $"CALL deletePeople({id});";
+
+            //Skapa ett MySQL Command
+            MySqlCommand cmd = new MySqlCommand(SQLQuerry, conn);
+
+            //Execute, inside Try/Catch block
+            try
+            {
+                //Öppna kommunimation
+                conn.Open();
+
+                //Exekvera command
+                cmd.ExecuteReader();
+
+                conn.Close();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //Hämta data från DB
+            selectFromDB();
+
+            MessageBox.Show("Deleted Successfully!");
         }
     }
 }
