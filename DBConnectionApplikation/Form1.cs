@@ -367,5 +367,51 @@ namespace DBConnectionApplikation
                 MessageBox.Show(e.Message);
             }
         }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            // Validering för att kontrollera att en rad är markerad
+            if (gridOutput.SelectedRows.Count != 1) return;
+
+            //Int vairabel för markerat id
+            int id = 0;
+
+            //Hämtar ID från den markerade raden
+            DataGridViewSelectedRowCollection rows = gridOutput.SelectedRows;
+            id = Convert.ToInt32(rows[0].Cells[0].Value);
+
+            //Hämtar textvärden från textfält
+            string petName = txtPetName.Text;
+            string petSpieces = txtSpieces.Text;
+
+            //Bygg upp SQL querry
+            string SQLquerry = $"CALL addPetToPerson('{petName}', '{petSpieces}', {id});";
+
+            //Skapar ett MySQLCommand objekt
+            MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
+
+            //Try/Catch block
+            try
+            {
+                //Öppna koppling till DB
+                conn.Open();
+
+                //Exekvera SQL querry
+                cmd.ExecuteReader();
+
+                //stänger kopplingen till DB
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //Uppdatering av PetGrid
+            GetPetData(id);
+
+            // Bekräftelse till användaren
+            MessageBox.Show("Insert finished successfully!");
+        }
     }
 }
