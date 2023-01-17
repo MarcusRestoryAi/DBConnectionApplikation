@@ -46,6 +46,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblSpieces = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.btnAddpetNewPerson = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridOutput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPetOutput)).BeginInit();
             this.SuspendLayout();
@@ -232,6 +233,17 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // btnAddpetNewPerson
+            // 
+            this.btnAddpetNewPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddpetNewPerson.Location = new System.Drawing.Point(854, 171);
+            this.btnAddpetNewPerson.Name = "btnAddpetNewPerson";
+            this.btnAddpetNewPerson.Size = new System.Drawing.Size(181, 81);
+            this.btnAddpetNewPerson.TabIndex = 2;
+            this.btnAddpetNewPerson.Text = "Add pet to new Person";
+            this.btnAddpetNewPerson.UseVisualStyleBackColor = true;
+            this.btnAddpetNewPerson.Click += new System.EventHandler(this.btnAddpetNewPerson_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -243,6 +255,7 @@
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnAddpetNewPerson);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
@@ -284,6 +297,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblSpieces;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnAddpetNewPerson;
     }
 }
 

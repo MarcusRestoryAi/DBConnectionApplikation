@@ -21,6 +21,7 @@ namespace DBConnectionApplikation
         MySqlConnection conn;
 
         TextBox[] txtBoxes;
+        TextBox[] txtBoxesPets;
 
         public Form1()
         {
@@ -38,6 +39,7 @@ namespace DBConnectionApplikation
 
             //Skapa en array av textbox, för validering
             txtBoxes = new TextBox[] { txtName, txtAge, txtPet };
+            txtBoxesPets = new TextBox[] { txtPetName, txtSpieces };
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -409,6 +411,102 @@ namespace DBConnectionApplikation
 
             //Uppdatering av PetGrid
             GetPetData(id);
+
+            // Bekräftelse till användaren
+            MessageBox.Show("Insert finished successfully!");
+        }
+
+        private void btnAddpetNewPerson_Click(object sender, EventArgs e)
+        {
+            //ValideringsCheck
+            bool valid = true;
+
+            //Validering; kontrollera att varje textbox har ett värde
+            foreach (TextBox textbox in txtBoxes)
+            {
+                //Cleanup
+                textbox.Text = textbox.Text.Trim();
+
+                //validering
+                if (textbox.Text == "")
+                {
+                    //Validering has failed
+                    textbox.BackColor = Color.Red;
+
+                    valid = false;
+                }
+                else
+                {
+                    textbox.BackColor = TextBox.DefaultBackColor;
+                }
+            }
+
+            //Validering; kontrollera att varje textbox har ett värde
+            foreach (TextBox textbox in txtBoxesPets)
+            {
+                //Cleanup
+                textbox.Text = textbox.Text.Trim();
+
+                //validering
+                if (textbox.Text == "")
+                {
+                    //Validering has failed
+                    textbox.BackColor = Color.Red;
+
+                    valid = false;
+                }
+                else
+                {
+                    textbox.BackColor = TextBox.DefaultBackColor;
+                }
+            }
+
+            //Kontrollerar validerings resultat
+            if (!valid)
+            {
+                MessageBox.Show("Felaktig inmatning. Kontrollera röda fält.");
+                return;
+            }
+
+            //VALIDERING FÄRDIG
+
+            //Hämta värden
+            string personName = txtName.Text;
+            int personAge = Convert.ToInt32( txtAge.Text );
+            string petName = txtPetName.Text;
+            string petSpieces = txtSpieces.Text;
+
+            //Bygg upp SQL querry
+            string SQLquerry = $"CALL addNewPetToNewPerson('{personName}', {personAge}, '{petName}', '{petSpieces}');";
+
+            //Skapar ett MySQLCommand objekt
+            MySqlCommand cmd = new MySqlCommand(SQLquerry, conn);
+
+            //Try/Catch block
+            try
+            {
+                //Öppna koppling till DB
+                conn.Open();
+
+                //Exekvera SQL querry
+                cmd.ExecuteReader();
+
+                //stänger kopplingen till DB
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //Hämta personer från DB
+            selectFromDB();
+
+            //Markera sista raden
+            gridOutput.Rows[gridOutput.Rows.Count - 2].Selected = true;
+
+            //Hämta data
+            getSelectedRow();
 
             // Bekräftelse till användaren
             MessageBox.Show("Insert finished successfully!");
