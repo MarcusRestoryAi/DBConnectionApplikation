@@ -145,9 +145,6 @@ namespace DBConnectionApplikation
                 dataTable.Load(reader);
                 gridOutput.DataSource = dataTable;
 
-                //Tömma output label
-                lblSelectOutput.Text = "";
-
                 //Tömma Persons listan
                 People.persons.Clear();
 
@@ -162,9 +159,6 @@ namespace DBConnectionApplikation
                     string name = reader["people_name"].ToString();
                     int age = Convert.ToInt32(reader["people_age"]);
                     string petName = reader["people_pet"].ToString();
-
-                    //Skriva ut värden till label
-                    lblSelectOutput.Text += $"{name} är {age} år gammal. Husdjuret heter {petName}{Environment.NewLine}";
 
                     //Skapa ett nytt objekt av People och sparar det i statisk lista
                     People.persons.Add(new People(id, name, age, petName));
@@ -223,6 +217,9 @@ namespace DBConnectionApplikation
                     break;
                 }
             }
+
+            //Anropa separat funktion som hämtar Pet-data med id värdet som parameter
+            GetPetData(id);
 
             //Enable btnUpdate
             btnUpdate.Enabled = true;
@@ -334,6 +331,41 @@ namespace DBConnectionApplikation
             selectFromDB();
 
             MessageBox.Show("Deleted Successfully!");
+        }
+
+        private void gridOutput_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void GetPetData(int id)
+        {
+            //Anropa DB med person-id som parameter
+            //Bygg upp SQL querry
+            string SQLQuerry = $"CALL getPetByPerson({id});";
+
+            //SKapa ett MySQLCommand objekt
+            MySqlCommand cmd = new MySqlCommand(SQLQuerry, conn);
+
+            try
+            {
+                //Öppna connection till DB
+                conn.Open();
+
+                //Exekvera sql querry
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                //Skapa en DataTable för att sedan placera den i gridPetOutput
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                gridPetOutput.DataSource = dt;
+
+                //Stäng connection
+                conn.Close();
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

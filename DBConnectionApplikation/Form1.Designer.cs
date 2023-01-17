@@ -35,13 +35,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.lblSelectOutput = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.gridOutput = new System.Windows.Forms.DataGridView();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.gridPetOutput = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.gridOutput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridPetOutput)).BeginInit();
             this.SuspendLayout();
             // 
             // txtName
@@ -109,15 +110,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lblSelectOutput
-            // 
-            this.lblSelectOutput.AutoSize = true;
-            this.lblSelectOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectOutput.Location = new System.Drawing.Point(451, 40);
-            this.lblSelectOutput.Name = "lblSelectOutput";
-            this.lblSelectOutput.Size = new System.Drawing.Size(0, 25);
-            this.lblSelectOutput.TabIndex = 3;
-            // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -136,9 +128,10 @@
             this.gridOutput.Name = "gridOutput";
             this.gridOutput.RowHeadersWidth = 51;
             this.gridOutput.RowTemplate.Height = 24;
-            this.gridOutput.Size = new System.Drawing.Size(681, 272);
+            this.gridOutput.Size = new System.Drawing.Size(586, 272);
             this.gridOutput.TabIndex = 5;
             this.gridOutput.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOutput_CellClick);
+            this.gridOutput.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOutput_CellContentClick);
             this.gridOutput.SelectionChanged += new System.EventHandler(this.gridOutput_SelectionChanged);
             this.gridOutput.Click += new System.EventHandler(this.gridOutput_Click);
             // 
@@ -177,14 +170,24 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // gridPetOutput
+            // 
+            this.gridPetOutput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridPetOutput.Location = new System.Drawing.Point(643, 258);
+            this.gridPetOutput.Name = "gridPetOutput";
+            this.gridPetOutput.RowHeadersWidth = 51;
+            this.gridPetOutput.RowTemplate.Height = 24;
+            this.gridPetOutput.Size = new System.Drawing.Size(586, 272);
+            this.gridPetOutput.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1061, 726);
+            this.ClientSize = new System.Drawing.Size(1413, 726);
+            this.Controls.Add(this.gridPetOutput);
             this.Controls.Add(this.gridOutput);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.lblSelectOutput);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
@@ -198,6 +201,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.gridOutput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridPetOutput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,12 +216,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label lblSelectOutput;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView gridOutput;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.DataGridView gridPetOutput;
     }
 }
 
